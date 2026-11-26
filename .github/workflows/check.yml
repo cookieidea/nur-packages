@@ -26,9 +26,9 @@ jobs:
           - tabby-terminal
           - vapoursynth-rife-ncnn
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: cachix/install-nix-action@v30
+      - uses: cachix/install-nix-action@v32
         with:
           extra_nix_config: |
             experimental-features = nix-command flakes
