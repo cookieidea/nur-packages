@@ -2,7 +2,7 @@
 
 let
   # 版本与哈希由 nix-repin 从 source.ts 生成。
-  source = import ./source.nix { inherit fetchurl; };
+  source = import ./source.nix { inherit fetchurl stdenv; };
 in
 stdenv.mkDerivation rec {
   pname = "vapoursynth-rife-ncnn";
