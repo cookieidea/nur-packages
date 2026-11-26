@@ -9,7 +9,7 @@ let
   src =
     pkgs.runCommandLocal "nrd-uuyc_${version}_amd64.deb"
       {
-        outputHash = "sha256-70k/8v4ZSuA8BF0mdIacUnfCuEbv2ynpOgInDNZTrwY=";
+        outputHash = "sha256-zuxWT56AyJHR47WG5+FSCpjmw+mJl0AMjl+2PxRb8Ho=";
         outputHashMode = "flat";
         nativeBuildInputs = [
           pkgs.curl
