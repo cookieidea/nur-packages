@@ -7,7 +7,7 @@ let
   rev = "v2.14.5";
   src = fetchzip {
     url = "https://codeload.github.com/l-smash/l-smash/tar.gz/v2.14.5";
-    hash = "sha256-Su1zNlFGZG6FV2jIfxkRQAAFSXEkqNxKk8VTmqjXUTI=";
+    hash = "sha256-AiyCiKSjkrxvkpJqW2Ddjbb+1//zLKQaatPUeMRJmGU=";
     extension = "tar.gz";
   };
 in
