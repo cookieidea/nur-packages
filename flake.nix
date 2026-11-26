@@ -10,6 +10,12 @@
       url = "github:so1ve/nix-repin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # bubblewrap 沙箱包装（mkNixPak），用于给 GUI 应用做运行时隔离。
+    nixpak = {
+      url = "github:nixpak/nixpak";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -18,6 +24,7 @@
       nixpkgs,
       flake-utils,
       nix-repin,
+      nixpak,
     }:
     flake-utils.lib.eachDefaultSystem (
       system:
@@ -38,6 +45,12 @@
 
         # `nix run .#update` 更新所有带 source.ts 的包，也可指定包名。
         apps.update = nix-repin.apps.${system}.default;
+
+        # 沙箱构造器：nixpak.lib.nixpak 的绑定，供包定义里 mkNixPak 使用。
+        lib.mkNixPak = nixpak.lib.nixpak {
+          inherit (pkgs) lib;
+          inherit pkgs;
+        };
 
         formatter = pkgs.nixfmt-tree;
 

@@ -35,6 +35,11 @@ in
       nautilus-image-converter
       nautilus-with-extensions;
 
+    # 壁纸管理器；自带 open-wallpaper-engine 场景渲染插件。
+    waywallen = pkgs.callPackage ./pkgs/waywallen {
+      plugins = [ "open-wallpaper-engine" ];
+    };
+
     # VapourSynth 插件集：作为整体被 mpv 使用，属成品。
     inherit (import ./pkgs/vs-plugins { inherit pkgs; }) vapoursynth-with-plugins;
   };
