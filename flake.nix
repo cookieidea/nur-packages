@@ -40,6 +40,15 @@
         apps.update = nix-repin.apps.${system}.default;
 
         formatter = pkgs.nixfmt-tree;
+
+        # 只做格式检查（构建检查交给 check.yml 的 matrix，避免 flake check
+        # 一次性构建全部包耗时过长）。
+        checks.formatting = pkgs.runCommand "formatting-check"
+          { nativeBuildInputs = [ pkgs.nixfmt ]; } ''
+          cd ${./.}
+          nixfmt --check flake.nix default.nix $(find pkgs -name '*.nix' -not -path '*/source.nix')
+          touch $out
+        '';
       }
     )
     // {

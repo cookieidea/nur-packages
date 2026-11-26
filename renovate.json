@@ -1,0 +1,23 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "labels": ["dependencies"],
+  "packageRules": [
+    {
+      "description": "flake input 合成一个 PR",
+      "matchManagers": ["nix"],
+      "groupName": "flake inputs"
+    },
+    {
+      "description": "GitHub Actions 版本",
+      "matchManagers": ["github-actions"],
+      "groupName": "github actions"
+    },
+    {
+      "description": "不要把 nix-repin 生成的 source.nix 当作依赖源",
+      "matchManagers": ["nix"],
+      "matchFileNames": ["pkgs/**/source.nix"],
+      "enabled": false
+    }
+  ]
+}
