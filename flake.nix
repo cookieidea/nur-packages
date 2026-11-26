@@ -43,6 +43,13 @@
       }
     )
     // {
-      overlays.default = final: _prev: (import ./default.nix { pkgs = final; }).public;
+      # overlay 同时导出 public 与 internal：主配置用 overlay 引入后即可
+      # 从 pkgs 直接取到全部自建包，且这些包会用主配置的 nixpkgs 重新构建。
+      overlays.default =
+        final: _prev:
+        let
+          all = import ./default.nix { pkgs = final; };
+        in
+        all.public // all.internal;
     };
 }
