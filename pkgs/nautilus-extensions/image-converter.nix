@@ -1,15 +1,12 @@
 # Nautilus Image Converter（GTK4）。
 { pkgs }:
+let
+  # 版本与哈希由 nix-repin 从 source.ts 生成。
+  source = pkgs.callPackage ./source.nix { };
+in
 pkgs.stdenv.mkDerivation rec {
   pname = "nautilus-image-converter";
-  version = "0.5.0";
-
-  src = pkgs.fetchFromGitHub {
-    owner = "Ameen-Sha-Cheerangan";
-    repo = "nautilus-image-converter-gnome43plus";
-    rev = "e834b762f662a2e62131ca188cbf98e6ab04679d";
-    hash = "sha256-4QfXKAwZXzJNHT4oFEbFf9dLjI0PE0FI1MwHYu/Rh7k=";
-  };
+  inherit (source) version src;
 
   nativeBuildInputs = with pkgs; [
     meson

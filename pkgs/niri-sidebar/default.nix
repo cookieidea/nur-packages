@@ -1,15 +1,13 @@
 { pkgs }:
 
 # niri-sidebar（Rust）。
+let
+  # 版本与哈希由 nix-repin 从 source.ts 生成。
+  source = pkgs.callPackage ./source.nix { };
+in
 pkgs.rustPlatform.buildRustPackage (rec {
   pname = "niri-sidebar";
-  version = "0.3.0-unstable-2026-08-12";
-
-  src = pkgs.fetchgit {
-    url = "https://github.com/Vigintillionn/niri-sidebar";
-    rev = "954f62e7e395ae14f01af582296e25a548133dc0";
-    hash = "sha256-MYP1ZiwV9+yJhl0zpuri6NQkQHlaYZjGBhXpZEaPZyI=";
-  };
+  inherit (source) version src;
 
   cargoLock.lockFile = "${src}/Cargo.lock";
 
