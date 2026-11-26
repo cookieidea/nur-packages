@@ -2,13 +2,11 @@
 { pkgs }:
 
 let
-  version = "2026.08.14.1643";
-  assetDate = "2026-08-14-1643";
-
-  src = pkgs.fetchurl {
-    url = "https://github.com/a2heng/PureVox/releases/download/v${version}/PureVox-Linux-x64-${assetDate}-release.AppImage";
-    sha256 = "cbae6a1ec0e5d29db8bd2cf87b0f5ff4cba76c79f08843132ccde83ad96b8892";
-  };
+  # 版本与哈希由 nix-repin 从 source.ts 生成。
+  # 上游资产名把 tag 里的日期重排（v2026.11.24.0119 →
+  # PureVox-26.11.24-linux-x64.AppImage），模板表达不了，故用自定义 provider。
+  source = pkgs.callPackage ./source.nix { };
+  inherit (source) version src;
 
   # 补齐上游包遗漏的模块。
   srcGit = pkgs.fetchzip {
