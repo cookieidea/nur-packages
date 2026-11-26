@@ -3,11 +3,11 @@
 { fetchurl, stdenv }:
 
 let
-  version = "1.0.235";
+  version = "1.0.238";
   sources = {
     "x86_64-linux" = {
-      url = "https://github.com/Eugeny/tabby/releases/download/v1.0.235/tabby-1.0.235-linux-x64.AppImage";
-      hash = "sha256-DKXcAV/l7nhA8rIGhkzDfFL3w2t6c06GU6Oa6KV23O8=";
+      url = "https://github.com/Eugeny/tabby/releases/download/v1.0.238/tabby-1.0.238-linux-x64.AppImage";
+      hash = "sha256-ee+3c/70X5fNO+IApwy53GkPzvjW+qLbwpZ5qo9ofYU=";
     };
   };
   source =

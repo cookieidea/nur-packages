@@ -3,11 +3,15 @@
 { fetchurl, stdenv }:
 
 let
-  version = "1.10.2";
+  version = "1.11.4";
   sources = {
     "x86_64-linux" = {
-      url = "https://github.com/amir1376/ab-download-manager/releases/download/v1.10.2/ABDownloadManager_1.10.2_linux_x64.tar.gz";
-      hash = "sha256-xhwDnsQm3wC188/P0Htk7GKgw1x4vsvFYtRgDVpeqcQ=";
+      url = "https://github.com/amir1376/ab-download-manager/releases/download/v1.11.4/ABDownloadManager_1.11.4_linux_x64.tar.gz";
+      hash = "sha256-M8SzNHJRjB8Lgpw4jvEU+DY4BUk7jGfh54aI9YDvp0E=";
+    };
+    "aarch64-linux" = {
+      url = "https://github.com/amir1376/ab-download-manager/releases/download/v1.11.4/ABDownloadManager_1.11.4_linux_arm64.tar.gz";
+      hash = "sha256-zjDA4tinI7RlHpgN7w8ZqDipOaf89VxGV+kzvXvKR4s=";
     };
   };
   source =
