@@ -1,15 +1,12 @@
-{ lib, stdenv, fetchFromGitHub, pkg-config, which, ffmpeg_4, vapoursynth, l-smash }:
+{ lib, stdenv, fetchzip, pkg-config, which, ffmpeg_4, vapoursynth, l-smash }:
 
+let
+  # 版本与哈希由 nix-repin 从 source.ts 生成。
+  source = import ./source.nix { inherit fetchzip; };
+in
 stdenv.mkDerivation rec {
   pname = "vapoursynth-lsmash";
-  version = "unstable-2026-08-31";
-
-  src = fetchFromGitHub {
-    owner = "VFR-maniac";
-    repo = "L-SMASH-Works";
-    rev = "198cc7814c93209e23f1c6a20daffd651945ba2b";
-    hash = "sha256-eQ2FnUceFPk84QewkNhGfoEoQK3WcapY8f0SFGDOaN0=";
-  };
+  inherit (source) version src;
 
   nativeBuildInputs = [ pkg-config which ];
   buildInputs = [ vapoursynth ffmpeg_4 l-smash ];

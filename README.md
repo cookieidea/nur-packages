@@ -53,17 +53,17 @@ nix run .#update -- --force   # 强制重新生成
 | `ab-download-manager` | amir1376/ab-download-manager | ✅ |
 | `astral` | AstralNext/Astral | ✅ |
 | `bedrockboot` | Round-Studio/BedrockBoot | ✅ |
-| `niri-sidebar` | Vigintillionn/niri-sidebar | ❌ 待接入 |
+| `niri-sidebar` | Vigintillionn/niri-sidebar | ✅ |
 | `obs-vdoninja` | steveseguin/ninja-obs-plugin | ✅ |
-| `pins` | fabrialberio/Pins | ❌ 待接入 |
-| `purevox` | a2heng/PureVox | ❌ 待接入（asset 名含日期） |
+| `pins` | fabrialberio/Pins | ✅ |
+| `purevox` | a2heng/PureVox | ❌ asset 名含日期，需自定义转换 |
 | `tabby-terminal` | Eugeny/tabby | ✅ |
-| `vapoursynth-rife-ncnn` | styler00dollar/VapourSynth-RIFE-ncnn-Vulkan | ❌ 待接入 |
-| `k7sfunc` | hooke007/K7sfunc | ❌ 待接入 |
-| `l-smash` | l-smash/l-smash | ❌ 待接入 |
-| `vapoursynth-akarin` | AkarinVS/vapoursynth-plugin | ❌ 待接入 |
-| `vapoursynth-lsmash` | VFR-maniac/L-SMASH-Works | ❌ 待接入 |
-| `nautilus-image-converter` | Ameen-Sha-Cheerangan/nautilus-image-converter-gnome | ❌ 待接入 |
+| `vapoursynth-rife-ncnn` | styler00dollar/VapourSynth-RIFE-ncnn-Vulkan | ✅ |
+| `k7sfunc` | PyPI k7sfunc | ❌ PyPI（nix-repin 无该 provider） |
+| `l-smash` | l-smash/l-smash | ✅ |
+| `vapoursynth-akarin` | AkarinVS/vapoursynth-plugin | ✅ |
+| `vapoursynth-lsmash` | VFR-maniac/L-SMASH-Works | ✅ |
+| `nautilus-image-converter` | Ameen-Sha-Cheerangan/nautilus-image-converter-gnome | ✅ |
 | `harmonyos-sans-sc` | 华为官方字体 | ❌ 手动 |
 | `nyxniri-scratch-menu` | 本地 | ❌ |
 | `uuyc` | 本地 | ❌ |

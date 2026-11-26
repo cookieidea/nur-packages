@@ -1,14 +1,15 @@
 { lib, stdenv, autoPatchelfHook, fetchurl, p7zip, gcc-unwrapped, vulkan-loader }:
 
+let
+  # 版本与哈希由 nix-repin 从 source.ts 生成。
+  source = import ./source.nix { inherit fetchurl; };
+in
 stdenv.mkDerivation rec {
   pname = "vapoursynth-rife-ncnn";
-  version = "r9_mod_v33";
+  inherit (source) version src;
 
   # 预编译插件（ncnn+Vulkan 静态链接，仅依赖 libgomp/libstdc++，运行期 dlopen libvulkan）
-  plugin = fetchurl {
-    url = "https://github.com/styler00dollar/VapourSynth-RIFE-ncnn-Vulkan/releases/download/${version}/librife_linux_x86-64.so";
-    hash = "sha256-GKAKXjrJCl38/fhf24HZdzgaWiVgpMRdvppGnQB7GIY=";
-  };
+  plugin = src;
 
   models = fetchurl {
     url = "https://github.com/cookieidea/vs-models/releases/download/rife-std-v1/rife-models.7z";
