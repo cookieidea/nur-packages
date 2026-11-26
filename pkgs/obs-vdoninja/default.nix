@@ -1,0 +1,55 @@
+# VDO.Ninja OBS 插件（预编译 .so，构建时用 autoPatchelf 修复依赖）。
+# 插件按 .so.0.20 链接，需要固定 libdatachannel 0.20.2。
+{ pkgs }:
+
+let
+  libdatachannel-020 = pkgs.libdatachannel.overrideAttrs (_old: {
+    version = "0.20.2";
+    # libdatachannel 0.20.2 源码，不取 submodule。
+    src = pkgs.fetchgit {
+      url = "https://github.com/paullouisageneau/libdatachannel";
+      rev = "0b1074a9effeb8d9d3f4eca704d3fe3d2f9bc7e5"; # v0.20.2
+      hash = "sha256-bBSsD845iwCMA7TdMBxzezjNbMaGwvRq6rvY/8NLYRU=";
+      fetchSubmodules = false;
+    };
+  });
+  # 版本与哈希由 nix-repin 从 source.ts 生成。
+  source = pkgs.callPackage ./source.nix { };
+in
+
+pkgs.stdenv.mkDerivation {
+  pname = "obs-vdoninja";
+  # 插件仍链接 libdatachannel 0.20，保持上面的固定版本。
+  inherit (source) version src;
+
+  nativeBuildInputs = [ pkgs.autoPatchelfHook ];
+
+  # 上游 tarball 为扁平目录。
+  sourceRoot = ".";
+  dontWrapQtApps = true;
+
+  buildInputs = [
+    pkgs.obs-studio
+    libdatachannel-020
+    pkgs.ffmpeg_6
+    pkgs.qt6Packages.qtbase
+    pkgs.openssl
+    pkgs.stdenv.cc.cc.lib
+  ];
+
+  installPhase = ''
+    runHook preInstall
+    mkdir -p $out/lib/obs-plugins
+    cp lib/x86_64-linux-gnu/obs-plugins/obs-vdoninja.so $out/lib/obs-plugins/
+    mkdir -p $out/share/obs/obs-plugins/obs-vdoninja/locale
+    cp share/obs/obs-plugins/obs-vdoninja/locale/*.ini $out/share/obs/obs-plugins/obs-vdoninja/locale/
+    runHook postInstall
+  '';
+
+  meta = {
+    description = "VDO.Ninja OBS plugin (low-latency WebRTC streaming via OBS, AGPL-3.0)";
+    homepage = "https://github.com/steveseguin/ninja-obs-plugin";
+    license = pkgs.lib.licenses.agpl3Only;
+    platforms = [ "x86_64-linux" ];
+  };
+}

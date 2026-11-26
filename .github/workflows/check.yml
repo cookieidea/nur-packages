@@ -1,0 +1,38 @@
+name: 构建检查
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        package:
+          - ab-download-manager
+          - astral
+          - bedrockboot
+          - niri-sidebar
+          - obs-vdoninja
+          - pins
+          - purevox
+          - tabby-terminal
+          - vapoursynth-rife-ncnn
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: cachix/install-nix-action@v30
+        with:
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+            accept-flake-config = true
+
+      - name: 构建 ${{ matrix.package }}
+        run: nix build ".#${{ matrix.package }}" --no-link --print-build-logs

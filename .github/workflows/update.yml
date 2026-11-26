@@ -1,0 +1,64 @@
+name: 更新包源
+
+on:
+  schedule:
+    # 每天 04:17 UTC（北京时间 12:17），错开整点避免 GitHub 排队高峰。
+    - cron: "17 4 * * *"
+  workflow_dispatch:
+    inputs:
+      packages:
+        description: "只更新指定的包（空格分隔），留空表示全部"
+        required: false
+        type: string
+      force:
+        description: "强制重新生成（忽略版本未变）"
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-sources
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: cachix/install-nix-action@v30
+        with:
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+            accept-flake-config = true
+
+      - name: 生成 source.nix
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PACKAGES: ${{ inputs.packages }}
+          FORCE: ${{ inputs.force }}
+        run: |
+          args=()
+          [ -n "$PACKAGES" ] && args+=($PACKAGES)
+          [ "$FORCE" = "true" ] && args+=(--force)
+          nix run .#update -- "${args[@]}"
+
+      - name: 检查是否有变更
+        id: diff
+        run: |
+          if git diff --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            git diff --stat
+          fi
+
+      - name: 提交并推送
+        if: steps.diff.outputs.changed == 'true'
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: 更新包源"
+          commit_author: "github-actions[bot] <github-actions[bot]@users.noreply.github.com>"
