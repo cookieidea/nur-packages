@@ -3,7 +3,7 @@
 { pkgs }:
 
 let
-  call = path: (import path { inherit pkgs; }).public or {};
+  call = path: (import path { inherit pkgs; }).public or { };
 in
 {
   public = {
@@ -14,7 +14,11 @@ in
 
     # 工具和网络。
     ab-download-manager = import ./pkgs/ab-download-manager { inherit pkgs; };
-    astral = import ./pkgs/astral { inherit pkgs; lib = pkgs.lib; fetchurl = pkgs.fetchurl; };
+    astral = import ./pkgs/astral {
+      inherit pkgs;
+      lib = pkgs.lib;
+      fetchurl = pkgs.fetchurl;
+    };
 
     # 影音和直播。
     obs-vdoninja = import ./pkgs/obs-vdoninja { inherit pkgs; };
@@ -32,7 +36,8 @@ in
     # 文件管理器扩展。
     inherit (import ./pkgs/nautilus-extensions { inherit pkgs; })
       nautilus-image-converter
-      nautilus-with-extensions;
+      nautilus-with-extensions
+      ;
 
     # 壁纸管理器；自带 open-wallpaper-engine 场景渲染插件。
     waywallen = pkgs.callPackage ./pkgs/waywallen {
@@ -50,8 +55,8 @@ in
       vapoursynth-lsmash
       vapoursynth-akarin
       vapoursynth-rife-ncnn
-      k7sfunc;
+      k7sfunc
+      ;
 
-    inherit (import ./pkgs/mark-shot-python { inherit pkgs; })
   };
 }
