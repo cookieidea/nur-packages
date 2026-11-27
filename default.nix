@@ -53,9 +53,7 @@ in
       k7sfunc;
 
     inherit (import ./pkgs/mark-shot-python { inherit pkgs; })
-      markShotOcr
       markShotScan
-      markShotOcrHelper
       markShotScanHelper;
   };
 }

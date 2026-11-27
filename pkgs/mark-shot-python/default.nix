@@ -1,14 +1,9 @@
-# mark-shot 的 OCR / 扫码 Python 环境，供 activation 生成的 helper 使用。
+# mark-shot 的扫码 Python 环境，供 activation 生成的 helper 使用。
+# （OCR 自 mark-shot 0.2.5 起改为内置 ONNX Runtime 实现，不再需要 Python 环境。）
 { pkgs }:
 
-# 需要 rec：helper 包引用同级的 markShotOcr / markShotScan
+# 需要 rec：helper 包引用同级的 markShotScan
 rec {
-  # OCR：RapidOCR + ONNX Runtime。
-  markShotOcr = pkgs.python3.withPackages (ps: with ps; [
-    rapidocr
-    onnxruntime
-  ]);
-
   # 扫码：zxing-cpp + Pillow + NumPy。
   markShotScan = pkgs.python3.withPackages (ps: with ps; [
     zxing-cpp
@@ -16,18 +11,9 @@ rec {
     numpy
   ]);
 
-  # helper 入口：把上面的 Python 环境包装成可执行脚本，
+  # helper 入口：把扫码 Python 环境包装成可执行脚本，
   # 供 activation 安装到 ~/.local/share/mark-shot/。
-  # 原先这两段 Python 内联在 activation.nix 的 heredoc 中，难以维护。
-  markShotOcrHelper = pkgs.runCommand "mark-shot-ocr-helper" { nativeBuildInputs = [ pkgs.makeWrapper ]; } ''
-    mkdir -p $out/bin
-    cat > $out/bin/ocr-helper.py <<'PY'
-${builtins.readFile ./ocr-helper.py}
-PY
-    chmod +x $out/bin/ocr-helper.py
-    wrapProgram $out/bin/ocr-helper.py --set PATH ${markShotOcr}/bin
-  '';
-
+  # （OCR 自 mark-shot 0.2.5 起改为内置实现，不再需要 Python 环境。）
   markShotScanHelper = pkgs.runCommand "mark-shot-scan-helper" { nativeBuildInputs = [ pkgs.makeWrapper ]; } ''
     mkdir -p $out/bin
     cat > $out/bin/code-scan-helper.py <<'PY'
