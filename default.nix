@@ -15,7 +15,6 @@ in
     # 工具和网络。
     ab-download-manager = import ./pkgs/ab-download-manager { inherit pkgs; };
     astral = import ./pkgs/astral { inherit pkgs; lib = pkgs.lib; fetchurl = pkgs.fetchurl; };
-    uuyc = import ./pkgs/uuyc { inherit pkgs; };
 
     # 影音和直播。
     obs-vdoninja = import ./pkgs/obs-vdoninja { inherit pkgs; };
